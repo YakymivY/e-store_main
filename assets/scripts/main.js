@@ -2,6 +2,7 @@ require("jquery");
 import "slick-carousel";
 
 jQuery(document).ready(function($) {
+  console.log("hello world");
   $(".categories-link, .categories-link-all").on("click", function(e) {
     e.preventDefault();
     $(".categories-link, .categories-link-all").removeClass("activeCategory");
@@ -35,6 +36,8 @@ jQuery(document).ready(function($) {
     $(".pa_size").removeClass("activeAttributes");
     $(".pa_color").removeClass("activeAttributes");
     $(this).addClass("activeAttributes");
+    console.log(nameOfClass, id);
+
     let ajaxurl = "/wp-admin/admin-ajax.php";
 
     jQuery.post(
@@ -60,6 +63,7 @@ jQuery(document).ready(function($) {
     $(".pa_size").removeClass("activeAttributes");
     $(".categories-link, .categories-link-all").removeClass("activeCategory");
     $(this).addClass("activeAttributes");
+    console.log(nameOfClass, id);
     let ajaxurl = "/wp-admin/admin-ajax.php";
 
     jQuery.post(
@@ -80,15 +84,23 @@ jQuery(document).ready(function($) {
 
     let url = "https://api.novaposhta.ua/v2.0/json/";
 
-    jQuery.post(url, {
-      // apiKey: "6416ecb9be5197c1d554d97514c7ccd3",
-      modelName: "Address",
-      calledMethod: "searchSettlements",
-      methodProperties: {
-        CityName: cityName,
-        Limit: 5,
+    jQuery.post(
+      url,
+      {
+        // apiKey: "6416ecb9be5197c1d554d97514c7ccd3",
+        modelName: "Address",
+        calledMethod: "searchSettlements",
+        methodProperties: {
+          CityName: cityName,
+          Limit: 5,
+        },
       },
-    });
+
+      function(output) {
+        console.log(output);
+        // $(".my-products").html(output);
+      }
+    );
   });
 
   // delivery (nova poshta api)
@@ -100,6 +112,7 @@ jQuery(document).ready(function($) {
 
   function getDeliveryAddress() {
     let cityName = $("#city").val();
+    console.log(cityName);
     if (!(cityName == "")) {
       $.ajax({
         type: "POST",
@@ -120,6 +133,7 @@ jQuery(document).ready(function($) {
           withCredentials: false,
         },
         success: function(responde) {
+          console.log(responde);
           $("#result").empty();
           $(".countDelivery").css("display", "none");
           $("#department")
@@ -144,6 +158,7 @@ jQuery(document).ready(function($) {
         let value = event.target.id;
         $("#city").val(value);
         $("#result").empty();
+        console.log(value);
         if (!(value == "")) {
           $.ajax({
             type: "POST",
@@ -164,10 +179,13 @@ jQuery(document).ready(function($) {
               withCredentials: false,
             },
             success: function(responde) {
+              console.log(responde.success);
               if (responde.success) {
                 $("#department").empty();
                 let data = responde.data;
                 var CityRecipient = responde.data[0].CityRef;
+                console.log(responde);
+                console.log(CityRecipient, "city");
                 for (let i = 0; i < data.length; i++) {
                   $("#department")
                     .append(
@@ -189,6 +207,7 @@ jQuery(document).ready(function($) {
                   action: "getDataDelivery",
                 },
                 function(output) {
+                  console.log(output);
                   let length = parseInt(+output.length);
                   let width = parseInt(+output.width);
                   let height = parseInt(+output.height);
@@ -224,9 +243,11 @@ jQuery(document).ready(function($) {
                       withCredentials: false,
                     },
                     success: function(responde) {
+                      console.log(responde);
                       let cost = responde.data[0].Cost;
                       $(".countDelivery").css("display", "block");
                       $("#deliveryCost").html(cost);
+                      console.log(cost);
                     },
                   });
                 },
@@ -255,6 +276,7 @@ $("#checkout-button").on("click", function(e) {
   $("#firstNameError").css("display", "none");
   $("#secondNameError").css("display", "none");
   $("#phoneError").css("display", "none");
+  console.log("you press me!");
   e.preventDefault();
   // regEx for email
   let regEmail = /^\w+([-+.'][^\s]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
@@ -310,6 +332,7 @@ $("#checkout-button").on("click", function(e) {
       },
 
       function(responde) {
+        console.log(responde);
         if (responde == "succsess") {
           $(".checkout").hide();
           $(".checkoutSuccsess").css("display", "flex");
@@ -331,6 +354,7 @@ $(".productColor").on("click", function(e) {
   let productId = $(this).attr("data-productid");
   let color = jQuery.trim(e.target.id);
   let size = jQuery.trim($(".activeSize")[0].id);
+  console.log(color, productId);
   let url = "/wp-admin/admin-ajax.php";
   let data = {
     action: "getVariationImage",
@@ -345,6 +369,7 @@ $(".productColor").on("click", function(e) {
     dataType: "text",
     success: function(data) {
       let res = jQuery.parseJSON(data);
+      console.log(res.url);
       $("#productImage").attr("src", res.url);
       $(".item-price")
         .html(res.price)
@@ -399,6 +424,7 @@ $(".productSize").on("click", function(e) {
   let color = jQuery.trim($(".activeColor")[0].id);
   let productId = $(this).attr("data-productid");
   let size = jQuery.trim(e.target.id);
+  console.log(size, productId, color);
   let url = "/wp-admin/admin-ajax.php";
   let data = {
     action: "getVariationSizeQuantity",
@@ -413,6 +439,7 @@ $(".productSize").on("click", function(e) {
     dataType: "text",
     success: function(data) {
       let res = jQuery.parseJSON(data);
+      console.log(res.quantityInStock);
       $(".item-price")
         .html(res.price)
         .append(" ₴");
@@ -519,6 +546,7 @@ $("#addToCartSinglePage").on("click", function() {
   let productId = $(".activeColor").attr("data-productid");
   let size = jQuery.trim($(".activeSize")[0].id);
   let quantity = $("#quantityToOrder").val();
+  console.log(color, productId, size, quantity);
   let url = "/wp-admin/admin-ajax.php";
   let data = {
     action: "addToCartSinglePage",
@@ -537,6 +565,7 @@ $("#addToCartSinglePage").on("click", function() {
       $(".lds-ring").css("display", "flex");
     },
     success: function(data) {
+      console.log(data);
       if (data > 0) {
         $(".header-cart-count")
           .empty()
@@ -583,6 +612,7 @@ $(".release-item").on("click", function() {
 
       success: function(data) {
         let res = jQuery.parseJSON(data);
+        console.log(res);
         for (let key in res) {
           $(".slider").append("<div>" + res[key] + "</div>");
         }
@@ -644,6 +674,7 @@ $("#addCommentSubmit").on("click", function(e) {
   e.preventDefault();
   let date = new Date();
   date = date.toLocaleString();
+  console.log(date, "click");
   let postId = $(".activeColor").attr("data-productid");
   let comment_author = $("#name").val();
   let comment_content = $("#message").val();
@@ -665,6 +696,8 @@ $("#addCommentSubmit").on("click", function(e) {
       dataType: "text",
       beforeSend: function() {},
       success: function(data) {
+        console.log(typeof data);
+
         if (data == "done") {
           $(".comments").prepend(
             "<div><span>" +
@@ -744,6 +777,7 @@ function getSearchItems() {
     "overflow-y": "hidden",
   });
   let searchText = $("#search-text").val();
+  console.log(searchText);
   let url = "/wp-admin/admin-ajax.php";
   let data = {
     action: "searchProductForm",
@@ -756,7 +790,10 @@ function getSearchItems() {
     dataType: "text",
     beforeSend: function() {},
     success: function(data) {
+      //let res = jQuery.parseJSON(data);
+      console.log(data);
       $("#search-result").prepend(data);
+
       $(".search-result-container").css({
         "overflow-y": "scroll",
         height: "100%",
@@ -798,6 +835,7 @@ $(".hamburger").click(function() {
     $(".header-nav-menu").css("display", "block");
     Closed = true;
   }
+  console.log(Closed);
 });
 $(window).on("resize", function() {
   let windowSize = +$(window).width();

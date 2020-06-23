@@ -18,12 +18,6 @@
 
 <footer class="container-fluid">
     <div class="row">
-        <?php
-        global $template;
-        if (basename($template) === 'front-page.php') {
-            get_template_part('template-parts/mission-footer/mission');
-        }
-        ?>
 
         <div class="col-md-12 footer-social">
             <div class="footer-social-title">
@@ -41,6 +35,7 @@
     </div>
 </footer>
 
+<a href="#top"><div class="to_top"></div></a>
 
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

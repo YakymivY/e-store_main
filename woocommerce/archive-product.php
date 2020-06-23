@@ -39,11 +39,11 @@
                             foreach ($all_categories as $cat) {
                                 if ($cat->category_parent == 0) {
                                     $category_id = $cat->term_id; ?>
-                                 <ul class="shop-categories-mainList">
-                                     <a id='<?php echo  $cat->name ?> ' class="categories-link"><?php echo $cat->name ?></a>
+                                 <ul class="shop-categories-mainList"><a id='<?php echo  $cat->name ?> ' class="categories-link"><?php echo $cat->name ?></a>
                                      <?php
                                         foreach ($all_categories as $cat) {
                                         ?>
+
                                          <?php if ($cat->category_parent == $category_id) { ?>
                                              <li class="shop-categories-list-item"><a id='<?php echo $cat->name ?> ' class="categories-link"><?php echo $cat->name ?></a></li>
                                          <?php
@@ -63,8 +63,30 @@
              </div>
          </div>
          <div class="col-md-10">
+
              <div class="row my-products">
-                 <?php get_template_part('template-parts/shop-page/products-all') ?>
+                 <?php
+
+                    if (have_posts()) {
+                        while (have_posts()) : the_post();
+                    ?>
+                         <div class=" col-lg-4 col-md-6 col-6 release-item">
+                             <a class="mt-2" href="<?php the_permalink() ?>"> <?php woocommerce_template_loop_product_thumbnail() ?></a>
+                             <a href="<?php the_permalink() ?>">
+                                 <p class="item-name"><?php the_title() ?></p>
+                             </a>
+                             <p class="item-color"><?php wc_insertAttributeColor() ?></p>
+                             <p class="item-color"><?php wc_insertAttributeSize() ?></p>
+                             <p class="item-price"><?php woocommerce_template_loop_price() ?></p>
+                         </div>
+
+
+                 <?php endwhile;
+                    } else {
+                        echo __('No products found');
+                    }
+                    wp_reset_postdata();
+                    ?>
              </div>
          </div>
      </div>
@@ -75,5 +97,9 @@
             ?></p>
  </div>
  <?php
+
+
+
     get_footer();
+
     ?>

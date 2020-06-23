@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,600,700|Roboto:400,400i,700,700i" rel="stylesheet" />
     <?php wp_head(); ?>
-    <title>Gymshark</title>
+    <title>Dexquis</title>
 </head>
 
 <body>

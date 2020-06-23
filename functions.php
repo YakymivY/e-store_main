@@ -24,6 +24,7 @@ defined('THEME_TD') ? THEME_TD : define('THEME_TD', 'our-way-tours');
 $theme_includes = [
     '/lib/enqueue-scripts.php', // Enqueue styles and scripts
 ];
+
 foreach ($theme_includes as $file) {
     if (!$filepath = locate_template($file)) {
         continue;
@@ -32,6 +33,7 @@ foreach ($theme_includes as $file) {
             E_USER_ERROR
         );
     }
+
     include_once $filepath;
 }
 unset($file, $filepath);
@@ -93,7 +95,7 @@ function add_menuclass($ulclass)
 add_filter('wp_nav_menu', 'add_menuclass');
 
 
-// declarate woocommerce support
+// declare woocommerce support
 function mytheme_add_woocommerce_support()
 {
     add_theme_support('woocommerce');
@@ -104,28 +106,60 @@ add_action('after_setup_theme', 'mytheme_add_woocommerce_support');
 if (function_exists('add_image_size')) {
     add_image_size('custom-thumb', 90, 125);
 }
+
 add_action('wp_footer', 'bbloomer_cart_refresh_update_qty');
 
-// update product quantity on cart page
+
 function bbloomer_cart_refresh_update_qty()
 {
     if (is_cart()) {
 ?>
         <script type="text/javascript">
             var timeout;
+
             jQuery(function($) {
                 $('.woocommerce-cart-form').on('change', 'input.qty', function() {
+
                     if (timeout !== undefined) {
                         clearTimeout(timeout);
                     }
+
                     timeout = setTimeout(function() {
                         $("[name='update_cart']").trigger("click");
                     }, 1000); // 1 second delay, half a second (500) seems comfortable too
+
                 });
             });
         </script>
         <?php
     }
+}
+
+function meks_which_template_is_loaded()
+{
+    if (is_super_admin()) {
+        global $template;
+        print_r($template);
+    }
+}
+
+add_action('wp_footer', 'meks_which_template_is_loaded');
+
+//register widget zones
+add_action('widgets_init', 'widgets_zones');
+function widgets_zones()
+{
+    register_sidebar(['name' => 'Sidebar 1', 'id' => 'sidebar-1']);
+    register_sidebar(['name' => 'Sidebar 2', 'id' => 'sidebar-2']);
+    register_sidebar(['name' => 'Sidebar 3', 'id' => 'sidebar-3']);
+    register_sidebar(['name' => 'Sidebar 4', 'id' => 'sidebar-4']);
+    register_sidebar(['name' => 'Sidebar 5', 'id' => 'sidebar-5']);
+    register_sidebar(['name' => 'Sidebar 6', 'id' => 'sidebar-6']);
+    register_sidebar(['name' => 'Sidebar 7', 'id' => 'sidebar-7']);
+    register_sidebar(['name' => 'Sidebar 8', 'id' => 'sidebar-8']);
+    register_sidebar(['name' => 'Sidebar 9', 'id' => 'sidebar-9']);
+    register_sidebar(['name' => 'Sidebar 10', 'id' => 'sidebar-10']);
+    register_sidebar(['name' => 'Sidebar 11', 'id' => 'sidebar-11']);
 }
 
 // extend file types to load 
@@ -314,6 +348,7 @@ function import_post()
         <?php
         endwhile;
         ?>
+
     <?php
         wp_reset_postdata();
     else :
@@ -373,6 +408,8 @@ function wc_insertAttributeSizeSingleProduct()
         }
     }
 }
+
+// 
 
 // display atributes in list
 function listOfAttributes()
@@ -445,7 +482,9 @@ add_action('wp_ajax_getDataDelivery', 'sendDataToDeliveryCost');
 add_action('wp_ajax_nopriv_getDataDelivery', 'sendDataToDeliveryCost');
 
 
-//Create order dynamically
+/*
+     * Create order dynamically
+     */
 
 add_action('wp_ajax_deliveryAttributes', 'create_order');
 add_action('wp_ajax_nopriv_deliveryAttributes', 'create_order');
@@ -487,6 +526,10 @@ function create_order()
     // Set addresses
     $order->set_address($address, 'billing');
     $order->set_address($address, 'shipping');
+
+    // Set payment gateway
+    // $payment_gateways = WC()->payment_gateways->payment_gateways();
+    // $order->set_payment_method($payment_gateways['bacs']);
 
     // Calculate totals
 
@@ -693,15 +736,8 @@ function searchProductForm()
         endwhile;
         wp_reset_postdata();
     else :
-        echo 'Нажаль за вашим запитом нічого не знайдено. Спробуйте змінити його';
+        echo 'Нажаль за вашим запитом нічого не знайдено. Спробуйте змінити запит';
     endif;
 
     die;
 }
-
-// Change href in back to shop button when cart is empty
-function change_empty_cart_button_url()
-{
-    return '/shop/';
-}
-add_filter('woocommerce_return_to_shop_redirect', 'change_empty_cart_button_url');

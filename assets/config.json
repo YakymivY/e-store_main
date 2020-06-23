@@ -4,7 +4,7 @@
     "customizer": ["./scripts/customizer.js"]
   },
   "publicPath": "/wp-content/themes/webpack-theme",
-  "devUrl": "https://e-store",
+  "devUrl": "http://e-store/",
   "proxyUrl": "http://localhost:3000",
   "cacheBusting": "[name]_[hash:8]"
 }

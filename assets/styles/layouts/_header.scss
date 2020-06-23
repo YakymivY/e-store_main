@@ -13,17 +13,22 @@
   .header-options {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
 
     @media screen and (max-width: 992px) {
       order: 3;
     }
 
-    .search-icon {
-      cursor: pointer;
+    .search_main_container {
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
     }
 
     .header-cart {
       position: relative;
+      height: 45px;
+      margin-top: 9px;
 
       .header-cart-link {
         text-decoration: none;
@@ -52,6 +57,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 0;
 
     @media screen and (max-width: 992px) {
       padding: 80px 15px 0 0;
@@ -59,7 +65,7 @@
     }
 
     @media screen and (max-width: 400px) {
-      padding-top: 30px;
+      padding-top: 80px;
     }
 
     li {
@@ -94,6 +100,12 @@
 .header-link-text:hover::after {
   width: 100%;
   background: #1a1819;
+}
+
+.search_container {
+  @media screen and (min-width: 769px) {
+    display: none;
+  }
 }
 
 // Serach form

@@ -30,3 +30,21 @@
   text-align: center;
   padding-top: 20px;
 }
+
+.to_top {
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  opacity: 0.5;
+  background-image: url(../assets/images/parte-superior.png);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transition: 0.35s;
+}
+
+.to_top:hover {
+  opacity: 1;
+}

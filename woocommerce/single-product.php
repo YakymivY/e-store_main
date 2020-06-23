@@ -22,6 +22,14 @@ get_header();
 			global $product;
 			$product_id = $product->get_id();
 			$variations = $product->get_available_variations();
+			// global $woocommerce;
+			// $cart = $woocommerce->cart->get_cart();
+			// foreach ($woocommerce->cart->get_cart() as $cart_item) {
+			// 	if ($cart_item['product_id'] === $product_id) {
+			// 		echo $cart_item['quantity'];
+			// 	}
+			// }
+			//print_r($cart);
 			?>
 			<div class=" col-lg-5 col-md-5 release-item">
 				<img id="productImage" class="productImage img-fluid" src="<?php echo $variations[0]['image']['url'] ?>" alt="<?php echo $product->get_name(); ?>">
@@ -60,11 +68,9 @@ get_header();
 		//print_r($variations = $product->get_available_variations());
 		endwhile; ?>
 			<div>
-				<div>
-					<button id="addToCartSinglePage" class="addToCartSinglePage d-flex justify-content-center" <?php if ($variations[0]['max_qty'] <= 0) {
-																													echo 'disabled=true style="cursor:not-allowed"';
-																												}
-																												?>>
+				<div><button id="addToCartSinglePage" class="addToCartSinglePage d-flex justify-content-center" <?php if ($variations[0]['max_qty'] <= 0) {
+																																																					echo 'disabled=true style="cursor:not-allowed"';
+																																																				} ?>>
 						<div style="display: none" class="lds-ring">
 							<div></div>
 							<div></div>
@@ -76,8 +82,7 @@ get_header();
 								<circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
 								<path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>
 						</div>
-					</button>
-				</div>
+					</button></div>
 			</div>
 			</div>
 
@@ -157,7 +162,9 @@ get_header();
 			</div>
 
 		</div>
-		<div class="col-md-7 col-sm-12">
+	</div>
+	<div class="row">
+		<div class="col-md-12 col-sm-12">
 			<h3>Можливо Вас зацікавить:</h3>
 			<div class="slider_probably_buy">
 				<?php
@@ -204,6 +211,8 @@ get_header();
 			</div>
 		</div>
 	</div>
+
+</div>
 </div>
 </div>
 
